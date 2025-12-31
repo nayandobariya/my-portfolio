@@ -137,9 +137,9 @@ try:
     import cloudinary.api
 
     CLOUDINARY_STORAGE = {
-        'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME'),
-        'API_KEY': os.environ.get('CLOUDINARY_API_KEY'),
-        'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET'),
+        'CLOUD_NAME': os.environ.get('nd'),
+        'API_KEY': os.environ.get('286424359465494'),
+        'API_SECRET': os.environ.get('IA0ojZYu2SDI674xRpACmL-IW1w'),
     }
 
     cloudinary.config(**CLOUDINARY_STORAGE)
