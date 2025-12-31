@@ -12,7 +12,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # ======================
 # SECURITY
 # ======================
-SECRET_KEY = os.environ.get("SECRET_KEY", "unsafe-secret-key")
+SECRET_KEY = os.environ.get("93a29e32d90dc031916b3d0260595f53")
 
 DEBUG = os.environ.get("DEBUG", "False") == "True"
 
