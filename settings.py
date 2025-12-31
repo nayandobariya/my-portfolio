@@ -12,7 +12,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # ======================
 # SECURITY
 # ======================
-SECRET_KEY = os.environ.get("j=&hsskvy#8p$nl=4o0y2=s-#j93pku#2-*b!+c^##a%m3#!fw")
+SECRET_KEY = os.environ.get("SECRET_KEY", "j=&hsskvy#8p$nl=4o0y2=s-#j93pku#2-*b!+c^##a%m3#!fw")
 
 DEBUG = os.environ.get("DEBUG", "False") == "True"
 
@@ -20,6 +20,7 @@ ALLOWED_HOSTS = [
     "localhost",
     "127.0.0.1",
     ".onrender.com",
+    "my-portfolio-5.onrender.com",
 ]
 
 # ======================
@@ -137,13 +138,14 @@ try:
     import cloudinary.api
 
     CLOUDINARY_STORAGE = {
-        'CLOUD_NAME': os.environ.get('nd'),
-        'API_KEY': os.environ.get('286424359465494'),
-        'API_SECRET': os.environ.get('IA0ojZYu2SDI674xRpACmL-IW1w'),
+        'CLOUD_NAME': 'dwuabjqb9',
+        'API_KEY': '286424359465494',
+        'API_SECRET': 'IA0ojZYu2SDI674xRpACmL-IW1w',
     }
 
     cloudinary.config(**CLOUDINARY_STORAGE)
 
+    # Use Cloudinary for media files in production only
     if not DEBUG:
         DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 except ImportError:
