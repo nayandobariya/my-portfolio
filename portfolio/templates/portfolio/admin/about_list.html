@@ -1,0 +1,33 @@
+{% extends 'portfolio/admin/base.html' %}
+
+{% block title %}About Management - Admin{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h3>About Section</h3>
+            {% if not about %}
+                <a href="{% url 'admin_about_create' %}" class="btn btn-primary">Add About Section</a>
+            {% endif %}
+        </div>
+        {% if about %}
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ about.title }}</h5>
+                    <p class="card-text">{{ about.description|truncatechars:200 }}</p>
+                    {% if about.profile_image %}
+                        <img src="{{ about.profile_image.url }}" alt="Profile" class="img-fluid mb-3" style="max-width: 200px;">
+                    {% endif %}
+                    <div class="d-flex gap-2">
+                        <a href="{% url 'admin_about_update' about.pk %}" class="btn btn-warning">Edit</a>
+                        <a href="{% url 'admin_about_delete' about.pk %}" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this?')">Delete</a>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="alert alert-info">No about section found. <a href="{% url 'admin_about_create' %}">Create one</a>.</div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

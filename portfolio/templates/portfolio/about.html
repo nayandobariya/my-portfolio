@@ -1,0 +1,28 @@
+{% extends 'portfolio/base.html' %}
+
+{% block title %}About - Portfolio{% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <h1 class="text-center mb-4">About Me</h1>
+                {% if about %}
+                    <div class="text-center mb-4">
+                        {% if about.profile_image %}
+                            <img src="{{ about.profile_image.url }}" alt="Profile" class="img-fluid rounded-circle mb-3" style="max-width: 200px;">
+                        {% else %}
+                            <img src="https://via.placeholder.com/200x200" alt="Profile" class="img-fluid rounded-circle mb-3">
+                        {% endif %}
+                    </div>
+                    <h2 class="text-center">{{ about.title }}</h2>
+                    <p class="lead text-center">{{ about.description }}</p>
+                {% else %}
+                    <p class="lead text-center">About section content will be added soon.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends 'portfolio/admin/base.html' %}
+
+{% block title %}Blog Management - Admin{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h3>Blog Posts</h3>
+            <a href="{% url 'admin_blog_create' %}" class="btn btn-primary">Add Post</a>
+        </div>
+        {% if posts %}
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Published</th>
+                            <th>Created</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for post in posts %}
+                        <tr>
+                            <td>{{ post.title }}</td>
+                            <td>
+                                {% if post.published %}
+                                    <span class="badge bg-success">Published</span>
+                                {% else %}
+                                    <span class="badge bg-secondary">Draft</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ post.created_at|date:"M d, Y" }}</td>
+                            <td>
+                                <a href="{% url 'admin_blog_update' post.pk %}" class="btn btn-sm btn-warning">Edit</a>
+                                <a href="{% url 'admin_blog_delete' post.pk %}" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this post?')">Delete</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="alert alert-info">No blog posts found. <a href="{% url 'admin_blog_create' %}">Add one</a>.</div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

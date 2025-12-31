@@ -1,0 +1,36 @@
+{% extends 'portfolio/admin/base.html' %}
+
+{% block title %}{% if skill %}Edit{% else %}Add{% endif %} Skill - Admin{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h3>{% if skill %}Edit{% else %}Add{% endif %} Skill</h3>
+            </div>
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="name" name="name" value="{{ skill.name|default:'' }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="level" class="form-label">Level (1-100)</label>
+                        <input type="number" class="form-control" id="level" name="level" value="{{ skill.level|default:'' }}" min="1" max="100" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="category" class="form-label">Category</label>
+                        <input type="text" class="form-control" id="category" name="category" value="{{ skill.category|default:'' }}">
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <a href="{% url 'admin_skills_list' %}" class="btn btn-secondary">Cancel</a>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

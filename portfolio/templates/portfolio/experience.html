@@ -1,0 +1,90 @@
+{% extends 'portfolio/base.html' %}
+
+{% block title %}Experience - Portfolio{% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <h1 class="text-center mb-5">My Experience</h1>
+
+        <!-- Work Experience -->
+        <div class="row mb-5">
+            <div class="col-12">
+                <h2 class="mb-4">Work Experience</h2>
+                <div class="timeline">
+                    {% for exp in work_experience %}
+                    <div class="timeline-item mb-4">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <h5>{{ exp.title }}</h5>
+                            <h6 class="text-muted">{{ exp.company }}</h6>
+                            <p class="text-muted">{{ exp.start_date|date:"M Y" }} - {% if exp.is_current %}Present{% else %}{{ exp.end_date|date:"M Y" }}{% endif %}</p>
+                            <p>{{ exp.description }}</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Education -->
+        <div class="row">
+            <div class="col-12">
+                <h2 class="mb-4">Education</h2>
+                <div class="timeline">
+                    {% for exp in education %}
+                    <div class="timeline-item mb-4">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <h5>{{ exp.title }}</h5>
+                            <h6 class="text-muted">{{ exp.company }}</h6>
+                            <p class="text-muted">{{ exp.start_date|date:"M Y" }} - {% if exp.is_current %}Present{% else %}{{ exp.end_date|date:"M Y" }}{% endif %}</p>
+                            <p>{{ exp.description }}</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+.timeline {
+    position: relative;
+    padding-left: 30px;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 15px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #007bff;
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.timeline-marker {
+    position: absolute;
+    left: -22px;
+    top: 5px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #007bff;
+    border: 2px solid #fff;
+}
+
+.timeline-content {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 5px;
+}
+</style>
+{% endblock %}

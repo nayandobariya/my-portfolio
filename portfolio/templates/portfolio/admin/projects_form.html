@@ -1,0 +1,53 @@
+{% extends 'portfolio/admin/base.html' %}
+
+{% block title %}{% if project %}Edit{% else %}Add{% endif %} Project - Admin{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h3>{% if project %}Edit{% else %}Add{% endif %} Project</h3>
+            </div>
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Title</label>
+                        <input type="text" class="form-control" id="title" name="title" value="{{ project.title|default:'' }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea class="form-control" id="description" name="description" rows="4" required>{{ project.description|default:'' }}</textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="image" class="form-label">Image</label>
+                        <input type="file" class="form-control" id="image" name="image" accept="image/*">
+                        {% if project.image %}
+                            <small class="text-muted">Current image: <a href="{{ project.image.url }}" target="_blank">View</a></small>
+                        {% endif %}
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="url" class="form-label">Live Demo URL</label>
+                            <input type="url" class="form-control" id="url" name="url" value="{{ project.url|default:'' }}" placeholder="https://example.com">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="github_url" class="form-label">GitHub URL</label>
+                            <input type="url" class="form-control" id="github_url" name="github_url" value="{{ project.github_url|default:'' }}" placeholder="https://github.com/user/repo">
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="technologies" class="form-label">Technologies (comma-separated)</label>
+                        <input type="text" class="form-control" id="technologies" name="technologies" value="{{ project.technologies|default:'' }}" placeholder="Python, Django, Bootstrap">
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <a href="{% url 'admin_projects_list' %}" class="btn btn-secondary">Cancel</a>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
