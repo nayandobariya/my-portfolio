@@ -11,7 +11,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # ======================
 # SECURITY
 # =====================
-SECRET_KEY = os.environ.get("SECRET_KEY", "your-default-secret-key-for-development")
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
 DEBUG = os.environ.get("DEBUG", "True") == "True"
 
@@ -19,7 +19,7 @@ ALLOWED_HOSTS = [
     "localhost",
     "127.0.0.1",
     ".onrender.com",
-    "my-portfolio-5.onrender.com",
+   
 ]
 
 # ======================
@@ -54,8 +54,7 @@ MIDDLEWARE = [
 # ======================
 # URL & WSGI
 # ======================
-ROOT_URLCONF = "urls"
-
+ROOT_URLCONF = "portfolio_website.urls"
 
 TEMPLATES = [
     {
@@ -113,14 +112,15 @@ USE_TZ = True
 # ======================
 # STATIC FILES
 # ======================
+# STATIC & MEDIA FILES
+STATIC FILES
+# ======================
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
-# ======================
-# MEDIA & CLOUDINARY
-# ======================
-MEDIA_URL = "/media/"
+#MEDIA_URL = "/media/"
+#MEDIA_ROOT = BASE_DIR / "media"
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 try:
     import cloudinary
@@ -128,18 +128,12 @@ try:
     import cloudinary.api
 
     CLOUDINARY_STORAGE = {
-        'CLOUD_NAME': 'dwuabjqb9',
-        'API_KEY': '286424359465494',
-        'API_SECRET': 'IA0ojZYu2SDI674xRpACmL-IW1w',
+        "CLOUD_NAME": os.environ.get("CLOUDINARY_CLOUD_NAME"),
+        "API_KEY": os.environ.get("CLOUDINARY_API_KEY"),
+        "API_SECRET": os.environ.get("CLOUDINARY_API_SECRET"),
     }
 
-    cloudinary.config(**CLOUDINARY_STORAGE)
-
-    if not DEBUG:
-        DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
-
-except ImportError:
-    pass
+    
 
 # ======================
 # DEFAULT PRIMARY KEY
