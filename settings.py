@@ -146,10 +146,10 @@ try:
     cloudinary.config(**CLOUDINARY_STORAGE)
 
     # Use Cloudinary for media files in production only
+    
     if not DEBUG:
         DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-except ImportError:
-    pass
+        except ImportError:
 
 # ======================
 # DEFAULT PRIMARY KEY
