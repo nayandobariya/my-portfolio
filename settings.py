@@ -112,15 +112,15 @@ USE_TZ = True
 # ======================
 # STATIC FILES
 # ======================
-# STATIC & MEDIA FILES
-STATIC FILES
-# ======================
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
-
-#MEDIA_URL = "/media/"
-#MEDIA_ROOT = BASE_DIR / "media"
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
+# ======================
+# MEDIA FILES
+# ======================
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
 
 try:
     import cloudinary
