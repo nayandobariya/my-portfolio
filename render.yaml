@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: portfolio-website
+    name: my-portfolio7
     env: python
     plan: free
 
