@@ -25,17 +25,19 @@ class AboutForm(forms.ModelForm):
 class SkillForm(forms.ModelForm):
     class Meta:
         model = Skill
-        fields = ['name', 'level', 'category']
+        fields = ['name', 'level', 'category', 'order', 'featured']
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),
             'level': forms.NumberInput(attrs={'class': 'form-control', 'min': 1, 'max': 100}),
             'category': forms.TextInput(attrs={'class': 'form-control'}),
+            'order': forms.NumberInput(attrs={'class': 'form-control', 'min': 0}),
+            'featured': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
         }
 
 class ProjectForm(forms.ModelForm):
     class Meta:
         model = Project
-        fields = ['title', 'description', 'image', 'url', 'github_url', 'technologies']
+        fields = ['title', 'description', 'image', 'url', 'github_url', 'technologies', 'order', 'featured']
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control'}),
             'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 4}),
@@ -43,6 +45,8 @@ class ProjectForm(forms.ModelForm):
             'url': forms.URLInput(attrs={'class': 'form-control'}),
             'github_url': forms.URLInput(attrs={'class': 'form-control'}),
             'technologies': forms.TextInput(attrs={'class': 'form-control'}),
+            'order': forms.NumberInput(attrs={'class': 'form-control', 'min': 0}),
+            'featured': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
         }
 
 class ExperienceForm(forms.ModelForm):

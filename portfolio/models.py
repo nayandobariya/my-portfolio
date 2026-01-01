@@ -15,8 +15,13 @@ class Skill(models.Model):
     name = models.CharField(max_length=100)
     level = models.IntegerField(help_text="Skill level from 1 to 100")
     category = models.CharField(max_length=100, blank=True)
+    order = models.PositiveIntegerField(default=0, help_text="Display order")
+    featured = models.BooleanField(default=False, help_text="Show in featured section")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['order', 'name']
 
     def __str__(self):
         return self.name
@@ -28,8 +33,13 @@ class Project(models.Model):
     url = models.URLField(blank=True)
     github_url = models.URLField(blank=True)
     technologies = models.CharField(max_length=500, help_text="Comma-separated technologies")
+    order = models.PositiveIntegerField(default=0, help_text="Display order")
+    featured = models.BooleanField(default=False, help_text="Show in featured section")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['order', '-created_at']
 
     def __str__(self):
         return self.title

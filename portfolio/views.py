@@ -10,8 +10,24 @@ from .forms import ContactForm, AboutForm, SkillForm, ProjectForm, ExperienceFor
 
 def home(request):
     about = About.objects.first()
-    skills = Skill.objects.all()[:6]  # Show top 6 skills
-    projects = Project.objects.all()[:3]  # Show latest 3 projects
+    # Show featured skills first, then fill with regular skills
+    featured_skills = Skill.objects.filter(featured=True)[:6]
+    remaining_slots = 6 - featured_skills.count()
+    if remaining_slots > 0:
+        regular_skills = Skill.objects.filter(featured=False)[:remaining_slots]
+        skills = list(featured_skills) + list(regular_skills)
+    else:
+        skills = featured_skills
+
+    # Show featured projects first, then fill with regular projects
+    featured_projects = Project.objects.filter(featured=True)[:3]
+    remaining_slots = 3 - featured_projects.count()
+    if remaining_slots > 0:
+        regular_projects = Project.objects.filter(featured=False)[:remaining_slots]
+        projects = list(featured_projects) + list(regular_projects)
+    else:
+        projects = featured_projects
+
     experiences = Experience.objects.filter(is_education=False).order_by('-start_date')[:3]
     social_links = SocialMediaLink.objects.all()
     return render(request, 'portfolio/home.html', {
@@ -125,24 +141,26 @@ def admin_skills_list(request):
 
 def admin_skills_create(request):
     if request.method == 'POST':
-        name = request.POST.get('name')
-        level = request.POST.get('level')
-        category = request.POST.get('category')
-        Skill.objects.create(name=name, level=level, category=category)
-        messages.success(request, 'Skill created successfully!')
-        return redirect('admin_skills_list')
-    return render(request, 'portfolio/admin/skills_form.html')
+        form = SkillForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Skill created successfully!')
+            return redirect('admin_skills_list')
+    else:
+        form = SkillForm()
+    return render(request, 'portfolio/admin/skills_form.html', {'form': form})
 
 def admin_skills_update(request, pk):
     skill = get_object_or_404(Skill, pk=pk)
     if request.method == 'POST':
-        skill.name = request.POST.get('name')
-        skill.level = request.POST.get('level')
-        skill.category = request.POST.get('category')
-        skill.save()
-        messages.success(request, 'Skill updated successfully!')
-        return redirect('admin_skills_list')
-    return render(request, 'portfolio/admin/skills_form.html', {'skill': skill})
+        form = SkillForm(request.POST, instance=skill)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Skill updated successfully!')
+            return redirect('admin_skills_list')
+    else:
+        form = SkillForm(instance=skill)
+    return render(request, 'portfolio/admin/skills_form.html', {'form': form, 'skill': skill})
 
 def admin_skills_delete(request, pk):
     skill = get_object_or_404(Skill, pk=pk)
@@ -157,34 +175,26 @@ def admin_projects_list(request):
 
 def admin_projects_create(request):
     if request.method == 'POST':
-        title = request.POST.get('title')
-        description = request.POST.get('description')
-        image = request.FILES.get('image')
-        url = request.POST.get('url')
-        github_url = request.POST.get('github_url')
-        technologies = request.POST.get('technologies')
-        Project.objects.create(
-            title=title, description=description, image=image,
-            url=url, github_url=github_url, technologies=technologies
-        )
-        messages.success(request, 'Project created successfully!')
-        return redirect('admin_projects_list')
-    return render(request, 'portfolio/admin/projects_form.html')
+        form = ProjectForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Project created successfully!')
+            return redirect('projects')
+    else:
+        form = ProjectForm()
+    return render(request, 'portfolio/admin/projects_form.html', {'form': form})
 
 def admin_projects_update(request, pk):
     project = get_object_or_404(Project, pk=pk)
     if request.method == 'POST':
-        project.title = request.POST.get('title')
-        project.description = request.POST.get('description')
-        if request.FILES.get('image'):
-            project.image = request.FILES.get('image')
-        project.url = request.POST.get('url')
-        project.github_url = request.POST.get('github_url')
-        project.technologies = request.POST.get('technologies')
-        project.save()
-        messages.success(request, 'Project updated successfully!')
-        return redirect('admin_projects_list')
-    return render(request, 'portfolio/admin/projects_form.html', {'project': project})
+        form = ProjectForm(request.POST, request.FILES, instance=project)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Project updated successfully!')
+            return redirect('projects')
+    else:
+        form = ProjectForm(instance=project)
+    return render(request, 'portfolio/admin/projects_form.html', {'form': form, 'project': project})
 
 def admin_projects_delete(request, pk):
     project = get_object_or_404(Project, pk=pk)
