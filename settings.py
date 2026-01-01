@@ -134,6 +134,9 @@ try:
         'API_SECRET': 'IA0ojZYu2SDI674xRpACmL-IW1w',
     }
 
+    cloudinary.config(**CLOUDINARY_STORAGE)
+    DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
 except ImportError:
     pass
 
