@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: my-portfolio7
+    name: my-portfolio-5
     env: python
     plan: free
 
@@ -9,7 +9,8 @@ services:
       python manage.py collectstatic --noinput
 
     startCommand: |
-      python manage.py migrate && gunicorn portfolio_website.wsgi:application --bind 0.0.0.0:$PORT
+      python manage.py migrate &&
+      gunicorn portfolio_website.wsgi:application --bind 0.0.0.0:$PORT
 
     envVars:
       - key: DEBUG

@@ -6,13 +6,12 @@ Deployment ready for Render
 import os
 from pathlib import Path
 
-# Build paths inside the project
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # ======================
 # SECURITY
 # ======================
-SECRET_KEY = os.environ.get("SECRET_KEY", "j=&hsskvy#8p$nl=4o0y2=s-#j93pku#2-*b!+c^##a%m3#!fw")
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
 DEBUG = os.environ.get("DEBUG", "False") == "True"
 
@@ -20,7 +19,6 @@ ALLOWED_HOSTS = [
     "localhost",
     "127.0.0.1",
     ".onrender.com",
-    "my-portfolio-5.onrender.com",
 ]
 
 # ======================
@@ -43,6 +41,7 @@ INSTALLED_APPS = [
 # ======================
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -54,7 +53,7 @@ MIDDLEWARE = [
 # ======================
 # URL & WSGI
 # ======================
-ROOT_URLCONF = "urls"
+ROOT_URLCONF = "portfolio_website.urls"
 
 TEMPLATES = [
     {
@@ -72,7 +71,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "wsgi.application"
+WSGI_APPLICATION = "portfolio_website.wsgi.application"
 
 # ======================
 # DATABASE
@@ -84,7 +83,6 @@ DATABASES = {
     }
 }
 
-# Use DATABASE_URL if available (for production)
 if os.environ.get("DATABASE_URL"):
     import dj_database_url
     DATABASES["default"] = dj_database_url.config(
@@ -96,60 +94,50 @@ if os.environ.get("DATABASE_URL"):
 # PASSWORD VALIDATION
 # ======================
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
-    },
-    {
-        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
-    },
-    {
-        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
-    },
-    {
-        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
-    },
+    {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
+    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
+    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
+    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
 
 # ======================
 # INTERNATIONALIZATION
 # ======================
 LANGUAGE_CODE = "en-us"
-
 TIME_ZONE = "UTC"
-
 USE_I18N = True
 USE_TZ = True
 
 # ======================
-# STATIC & MEDIA FILES
+# STATIC FILES
 # ======================
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
+# ======================
+# MEDIA & CLOUDINARY
+# ======================
 MEDIA_URL = "/media/"
-MEDIA_ROOT = BASE_DIR / "media"
 
-# ======================
-# CLOUDINARY CONFIGURATION
-# ======================
 try:
     import cloudinary
     import cloudinary.uploader
     import cloudinary.api
 
     CLOUDINARY_STORAGE = {
-        'CLOUD_NAME': os.environ.get('dwuabjqb9'),
-        'API_KEY': os.environ.get('286424359465494'),
-        'API_SECRET': os.environ.get('IA0ojZYu2SDI674xRpACmL-IW1w'),
+        "CLOUD_NAME": os.environ.get("CLOUDINARY_CLOUD_NAME"),
+        "API_KEY": os.environ.get("CLOUDINARY_API_KEY"),
+        "API_SECRET": os.environ.get("CLOUDINARY_API_SECRET"),
     }
 
     cloudinary.config(**CLOUDINARY_STORAGE)
 
-    # Use Cloudinary for media files in production only
-    
     if not DEBUG:
-        DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-        except ImportError:
+        DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
+
+except ImportError:
+    pass
 
 # ======================
 # DEFAULT PRIMARY KEY
