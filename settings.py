@@ -11,7 +11,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # ======================
 # SECURITY
 # =====================
-SECRET_KEY = os.environ.get("SECRET_KEY")
+SECRET_KEY = os.environ.get("SECRET_KEY", "j=&hsskvy#8p$nl=4o0y2=s-#j93pku#2-*b!+c^##a%m3#!fw")
 
 DEBUG = os.environ.get("DEBUG", "True") == "True"
 
@@ -19,7 +19,7 @@ ALLOWED_HOSTS = [
     "localhost",
     "127.0.0.1",
     ".onrender.com",
-   
+   "my-portfolio-5.onrender.com",
 ]
 
 # ======================
@@ -54,7 +54,7 @@ MIDDLEWARE = [
 # ======================
 # URL & WSGI
 # ======================
-ROOT_URLCONF = "portfolio_website.urls"
+ROOT_URLCONF = "urls"
 
 TEMPLATES = [
     {
@@ -128,12 +128,13 @@ try:
     import cloudinary.api
 
     CLOUDINARY_STORAGE = {
-        "CLOUD_NAME": os.environ.get("CLOUDINARY_CLOUD_NAME"),
-        "API_KEY": os.environ.get("CLOUDINARY_API_KEY"),
-        "API_SECRET": os.environ.get("CLOUDINARY_API_SECRET"),
+        'CLOUD_NAME': 'dwuabjqb9',
+        'API_KEY': '286424359465494',
+        'API_SECRET': 'IA0ojZYu2SDI674xRpACmL-IW1w',
     }
 
-    
+except ImportError:
+    pass
 
 # ======================
 # DEFAULT PRIMARY KEY
