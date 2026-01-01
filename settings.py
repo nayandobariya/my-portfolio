@@ -128,14 +128,18 @@ try:
     import cloudinary.uploader
     import cloudinary.api
 
+    # Cloudinary configuration
     CLOUDINARY_STORAGE = {
-        'CLOUD_NAME': 'dwuabjqb9',
-        'API_KEY': '286424359465494',
-        'API_SECRET': 'IA0ojZYu2SDI674xRpACmL-IW1w',
+        'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME', 'dwuabjqb9'),
+        'API_KEY': os.environ.get('CLOUDINARY_API_KEY', '286424359465494'),
+        'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET', 'IA0ojZYu2SDI674xRpACmL-IW1w'),
     }
 
     cloudinary.config(**CLOUDINARY_STORAGE)
     DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+    # Cloudinary URL configuration
+    CLOUDINARY_URL = os.environ.get('CLOUDINARY_URL') or f"cloudinary://{CLOUDINARY_STORAGE['API_KEY']}:{CLOUDINARY_STORAGE['API_SECRET']}@{CLOUDINARY_STORAGE['CLOUD_NAME']}"
 
 except ImportError:
     pass

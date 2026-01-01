@@ -15,7 +15,7 @@
             </div>
             <div class="col-lg-6 text-center">
                 {% if about and about.profile_image %}
-                    <img src="{{ about.profile_image.url }}" alt="Profile" class="img-fluid rounded-circle" style="max-width: 300px;">
+                    <img src="{{ about.profile_image|cloudinary_url }}" alt="Profile" class="img-fluid rounded-circle" style="max-width: 300px;">
                 {% else %}
                     <img src="https://via.placeholder.com/300x300" alt="Profile" class="img-fluid rounded-circle">
                 {% endif %}
